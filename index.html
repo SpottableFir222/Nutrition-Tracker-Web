@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriTrack - Calorie & Nutrition Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🥗 NutriTrack</h2>
+            </div>
+            <div class="nav-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Today's Calories</span>
+                    <span class="stat-value" id="todayCalories">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Cal Goal</span>
+                    <span class="stat-value" id="calorieGoal">2000</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Today's Protein</span>
+                    <span class="stat-value protein-stat" id="todayProtein">0g</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Protein Goal</span>
+                    <span class="stat-value protein-stat" id="proteinGoal">150g</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Calendar Section -->
+        <section class="calendar-section">
+            <div class="container">
+                <div class="calendar-header">
+                    <button class="btn-nav" id="prevMonth">←</button>
+                    <h2 class="calendar-title" id="currentMonth">October 2025</h2>
+                    <button class="btn-nav" id="nextMonth">→</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar days will be generated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Log Section -->
+        <section class="daily-log-section">
+            <div class="container">
+                <div class="daily-log-container">
+                    <!-- Left Panel: Meal Entries -->
+                    <div class="meals-panel">
+                        <div class="panel-header">
+                            <h3 id="selectedDate">Today's Meals</h3>
+                            <button class="btn btn-primary" id="addMealBtn">+ Add Meal</button>
+                        </div>
+
+                        <!-- Nutrition Summary Card -->
+                        <div class="nutrition-summary">
+                            <h4>Daily Summary</h4>
+                            <div class="nutrition-bars">
+                                <div class="nutrition-bar-item">
+                                    <div class="nutrition-bar-header">
+                                        <span>Calories</span>
+                                        <span><strong id="summaryCalories">0</strong> / <span id="summaryCaloriesGoal">2000</span> kcal</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill calories" id="caloriesProgress"></div>
+                                    </div>
+                                </div>
+                                <div class="nutrition-bar-item">
+                                    <div class="nutrition-bar-header">
+                                        <span>Protein</span>
+                                        <span><strong id="summaryProtein">0</strong> / <span id="summaryProteinGoal">150</span>g</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill protein" id="proteinProgress"></div>
+                                    </div>
+                                </div>
+                                <div class="nutrition-bar-item">
+                                    <div class="nutrition-bar-header">
+                                        <span>Carbs</span>
+                                        <span><strong id="summaryCarbs">0</strong>g</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill carbs" id="carbsProgress"></div>
+                                    </div>
+                                </div>
+                                <div class="nutrition-bar-item">
+                                    <div class="nutrition-bar-header">
+                                        <span>Fat</span>
+                                        <span><strong id="summaryFat">0</strong>g</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill fat" id="fatProgress"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Meals List -->
+                        <div class="meals-list" id="mealsList">
+                            <div class="empty-state">
+                                <div class="empty-icon">🍽️</div>
+                                <p>No meals logged for this day</p>
+                                <p class="empty-subtitle">Click "Add Meal" to start tracking</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Quick Stats -->
+                    <div class="stats-panel">
+                        <div class="stats-card">
+                            <h4>Weekly Overview</h4>
+                            <div class="weekly-chart" id="weeklyChart">
+                                <!-- Weekly bars will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <h4>Quick Actions</h4>
+                            <button class="action-btn" id="setGoalBtn">
+                                <span class="action-icon">🎯</span>
+                                <span>Set Daily Goal</span>
+                            </button>
+                            <button class="action-btn" id="viewHistoryBtn">
+                                <span class="action-icon">📊</span>
+                                <span>View History</span>
+                            </button>
+                            <button class="action-btn" id="exportDataBtn">
+                                <span class="action-icon">💾</span>
+                                <span>Export Data</span>
+                            </button>
+                        </div>
+
+                        <div class="stats-card">
+                            <h4>Nutrition Tips</h4>
+                            <div class="tips-list">
+                                <div class="tip-item">💧 Stay hydrated - drink 8 glasses of water daily</div>
+                                <div class="tip-item">🥗 Include vegetables in every meal</div>
+                                <div class="tip-item">🏃 Balance calories with physical activity</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Meal Modal -->
+    <div class="modal" id="addMealModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Meal</h3>
+                <button class="modal-close" id="closeMealModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addMealForm">
+                    <div class="form-group">
+                        <label for="mealType">Meal Type</label>
+                        <select id="mealType" required>
+                            <option value="breakfast">🌅 Breakfast</option>
+                            <option value="lunch">☀️ Lunch</option>
+                            <option value="dinner">🌙 Dinner</option>
+                            <option value="snack">🍎 Snack</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="foodName">Food Name</label>
+                        <input type="text" id="foodName" placeholder="e.g., Grilled Chicken Salad" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="calories">Calories (kcal)</label>
+                            <input type="number" id="calories" placeholder="0" required min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="servingSize">Serving Size</label>
+                            <input type="text" id="servingSize" placeholder="e.g., 1 cup" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="protein">Protein (g)</label>
+                            <input type="number" id="protein" placeholder="0" required min="0" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="carbs">Carbs (g)</label>
+                            <input type="number" id="carbs" placeholder="0" required min="0" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="fat">Fat (g)</label>
+                            <input type="number" id="fat" placeholder="0" required min="0" step="0.1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes (optional)</label>
+                        <textarea id="notes" placeholder="Any additional notes..." rows="3"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelMealBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Meal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Set Goal Modal -->
+    <div class="modal" id="setGoalModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Set Daily Goals</h3>
+                <button class="modal-close" id="closeGoalModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="setGoalForm">
+                    <div class="form-group">
+                        <label for="dailyGoal">Daily Calorie Goal (kcal)</label>
+                        <input type="number" id="dailyGoal" placeholder="2000" required min="500" max="10000">
+                        <small>Recommended: 1800-2500 kcal for most adults</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="proteinGoalInput">Daily Protein Goal (grams)</label>
+                        <input type="number" id="proteinGoalInput" placeholder="150" required min="20" max="500" step="1">
+                        <small>Recommended: 0.8-1.2g per kg of body weight (56-175g for most adults)</small>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelGoalBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Goals</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 NutriTrack. Track your nutrition, achieve your goals.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
